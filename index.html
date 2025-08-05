@@ -7,8 +7,6 @@
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     body {
@@ -26,7 +24,6 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      will-change: background-position;
     }
 
     @keyframes gradientShift {
@@ -94,7 +91,6 @@
       position: relative;
       box-shadow: 0 4px 8px rgba(0,0,0,0.3);
       transition: transform 0.3s ease;
-      will-change: transform;
     }
 
     .candle:hover {
@@ -120,9 +116,8 @@
       position: absolute;
       top: -28px;
       left: 6px;
-      animation: flicker 1.5s infinite alternate ease-in-out;
+      animation: flicker 1.5s infinite alternate;
       box-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
-      will-change: transform, opacity;
     }
 
     .flame::before {
@@ -159,13 +154,13 @@
       }
     }
 
+    /* 🎂 Realistic Cake Design */
     .cake {
       position: relative;
       margin: 25px auto 15px auto;
       width: 180px;
       filter: drop-shadow(0 8px 15px rgba(0,0,0,0.3));
       flex-shrink: 0;
-      will-change: transform;
     }
 
     .cake-layer-bottom {
@@ -363,9 +358,8 @@
       top: -20px;
       left: -1px;
       border-radius: 50% 50% 0 0 / 60% 60% 40% 40%;
-      animation: flicker 1.5s infinite alternate ease-in-out;
+      animation: flicker 1.5s infinite alternate;
       box-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
-      will-change: transform, opacity;
     }
 
     .cake-candle::after {
@@ -379,10 +373,11 @@
       border-radius: 2px 2px 0 0;
     }
 
+    /* FIXED: Improved message container to prevent overflow issues */
     .message {
       font-size: 18px;
       line-height: 1.5;
-      animation: fadeIn 1s ease-out;
+      animation: fadeIn 2s ease-in-out;
       background: rgba(255,255,255,0.1);
       backdrop-filter: blur(10px);
       padding: 20px;
@@ -394,11 +389,13 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      /* FIXED: Removed restrictive max-height and improved overflow handling */
       overflow-y: auto;
       word-wrap: break-word;
       hyphens: auto;
+      /* FIXED: Allow natural height expansion */
       min-height: fit-content;
-      will-change: transform, opacity;
+      flex-shrink: 0;
     }
 
     .main-title {
@@ -412,13 +409,12 @@
       word-wrap: break-word;
       hyphens: auto;
       flex-shrink: 0;
-      will-change: transform, opacity, font-size;
     }
 
     .main-title.show {
       font-size: 36px;
       opacity: 1;
-      animation: popUpBounce 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+      animation: popUpBounce 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       color: #fff;
       text-shadow: 
         0 0 10px rgba(255,255,255,0.8),
@@ -450,16 +446,16 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Enhanced Balloons */
     .balloon {
       width: 50px;
       height: 70px;
       border-radius: 50%;
       position: absolute;
       bottom: -80px;
-      animation: float 12s linear infinite;
+      animation: float 12s infinite;
       z-index: 0;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-      will-change: transform, opacity;
     }
 
     .balloon::after {
@@ -502,8 +498,7 @@
       height: 4px;
       background: #fff;
       border-radius: 50%;
-      animation: sparkle 2s ease-in-out infinite;
-      will-change: transform, opacity;
+      animation: sparkle 2s infinite;
     }
 
     @keyframes sparkle {
@@ -515,10 +510,9 @@
       font-size: 18px;
       margin: 10px 0;
       opacity: 0.8;
-      animation: pulse 2s ease-in-out infinite;
+      animation: pulse 2s infinite;
       text-align: center;
       word-wrap: break-word;
-      will-change: opacity;
     }
 
     @keyframes pulse {
@@ -526,30 +520,7 @@
       50% { opacity: 1; }
     }
 
-    /* Reduced motion alternative */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      
-      .balloon, .sparkle, .flame, .cake-candle::before {
-        animation: none !important;
-      }
-      
-      .main-title.show {
-        animation: none !important;
-        opacity: 1;
-        transform: none;
-      }
-      
-      .message, .cake {
-        animation: none !important;
-      }
-    }
-
-    /* Responsive Design */
+    /* FIXED: Improved Mobile Responsive Design */
     @media (max-width: 768px) {
       .container {
         padding: 10px;
@@ -578,11 +549,15 @@
         margin: 12px 0 20px 0;
       }
 
+      /* FIXED: Better message handling on mobile */
       .message {
         font-size: 16px;
         padding: 15px;
         margin: 10px auto;
         line-height: 1.4;
+        /* FIXED: Allow content to expand naturally */
+        max-height: none;
+        overflow-y: visible;
       }
 
       .candle {
@@ -632,11 +607,15 @@
         margin: 6px 0;
       }
 
+      /* FIXED: Optimized for small screens */
       .message {
         font-size: 14px;
         padding: 12px;
         margin: 8px auto;
         line-height: 1.3;
+        /* FIXED: Natural content flow */
+        max-height: none;
+        overflow-y: visible;
       }
 
       .candles {
@@ -674,13 +653,76 @@
       }
     }
 
-    @media (max-height: 600px) {
+    @media (max-width: 360px) {
+      .main-title.show {
+        font-size: 20px;
+      }
+
+      /* FIXED: Extra small screens handling */
+      .message {
+        font-size: 13px;
+        padding: 10px;
+        /* FIXED: Ensure readability on tiny screens */
+        max-height: none;
+        overflow-y: visible;
+      }
+
+      .cake {
+        width: 90px;
+      }
+
+      .cake-plate {
+        width: 110px;
+      }
+
+      .cake-layer-bottom {
+        height: 35px;
+      }
+
+      .cake-layer-top {
+        height: 30px;
+      }
+
+      .cake-decorations {
+        gap: 8px;
+      }
+
+      .cake-decoration {
+        width: 6px;
+        height: 6px;
+      }
+
+      .cake-rose {
+        width: 10px;
+        height: 10px;
+      }
+
+      .cake-candle {
+        width: 6px;
+        height: 20px;
+      }
+
+      .cake-candle::before {
+        width: 8px;
+        height: 10px;
+        top: -12px;
+      }
+    }
+
+    /* FIXED: Improved landscape orientation handling */
+    @media (max-height: 600px) and (orientation: landscape) {
+      body {
+        overflow-y: auto;
+      }
+      
       .container {
+        min-height: 100vh;
         padding: 10px;
       }
 
       .message {
         font-size: 14px;
+        /* FIXED: Allow scrolling in landscape if needed */
         max-height: 40vh;
         overflow-y: auto;
       }
@@ -691,6 +733,31 @@
 
       .main-title.show {
         font-size: 20px;
+      }
+    }
+
+    /* FIXED: Handle very short screens */
+    @media (max-height: 500px) {
+      .container {
+        padding: 5px;
+        gap: 5px;
+      }
+
+      .message {
+        font-size: 12px;
+        padding: 8px;
+        max-height: 35vh;
+        overflow-y: auto;
+        line-height: 1.2;
+      }
+
+      .main-title.show {
+        font-size: 18px;
+        margin: 4px 0;
+      }
+
+      .cake {
+        width: 80px;
       }
     }
   </style>
@@ -755,85 +822,56 @@
   </div>
 
   <script>
-    // Performance optimized animation variables
-    let balloons = [];
-    let sparkles = [];
-    let candlesBlown = false;
-    let lastFrameTime = 0;
-    const targetFPS = 60;
-    const frameInterval = 1000 / targetFPS;
-    let animationFrameId;
-
-    // Balloon colors
-    const balloonColors = [
-      "linear-gradient(135deg, #FF69B4, #FF1493)",
-      "linear-gradient(135deg, #FFD700, #FFA500)", 
-      "linear-gradient(135deg, #87CEEB, #4169E1)",
-      "linear-gradient(135deg, #ADFF2F, #32CD32)",
-      "linear-gradient(135deg, #FF6347, #DC143C)",
-      "linear-gradient(135deg, #DDA0DD, #9370DB)"
-    ];
-
-    // Create balloon with object pooling
+    // Enhanced balloons generator
     function createBalloon() {
       const balloon = document.createElement("div");
       balloon.classList.add("balloon");
-      balloon.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+
+      const colors = [
+        "linear-gradient(135deg, #FF69B4, #FF1493)",
+        "linear-gradient(135deg, #FFD700, #FFA500)", 
+        "linear-gradient(135deg, #87CEEB, #4169E1)",
+        "linear-gradient(135deg, #ADFF2F, #32CD32)",
+        "linear-gradient(135deg, #FF6347, #DC143C)",
+        "linear-gradient(135deg, #DDA0DD, #9370DB)"
+      ];
+      
+      balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
       balloon.style.left = Math.random() * 100 + "vw";
       balloon.style.animationDuration = (10 + Math.random() * 4) + "s";
       balloon.style.animationDelay = Math.random() * 2 + "s";
-      document.body.appendChild(balloon);
-      
-      // Remove after animation completes
-      setTimeout(() => {
-        balloon.remove();
-      }, 12000);
-      
-      balloons.push(balloon);
-    }
 
-    // Create sparkle with object pooling
+      document.body.appendChild(balloon);
+      setTimeout(() => balloon.remove(), 15000);
+    }
+    
+    setInterval(createBalloon, 800);
+
+    // Create sparkles
     function createSparkle() {
       const sparkle = document.createElement("div");
       sparkle.classList.add("sparkle");
       sparkle.style.left = Math.random() * 100 + "vw";
       sparkle.style.top = Math.random() * 100 + "vh";
       sparkle.style.animationDelay = Math.random() * 2 + "s";
+      
       document.body.appendChild(sparkle);
-      
-      // Remove after animation completes
-      setTimeout(() => {
-        sparkle.remove();
-      }, 2000);
-      
-      sparkles.push(sparkle);
+      setTimeout(() => sparkle.remove(), 2000);
     }
+    
+    setInterval(createSparkle, 300);
 
-    // Optimized animation loop
-    function animationLoop(timestamp) {
-      animationFrameId = requestAnimationFrame(animationLoop);
-      
-      // Throttle to target FPS
-      if (timestamp - lastFrameTime < frameInterval) return;
-      lastFrameTime = timestamp;
-      
-      // Create new elements at controlled rate
-      if (Math.random() < 0.1) createBalloon();
-      if (Math.random() < 0.2) createSparkle();
-    }
+    // Enhanced candle blow logic
+    let candlesBlown = false;
 
-    // Enhanced candle blow effect
     function blowCandles() {
       if (candlesBlown) return;
-      candlesBlown = true;
 
       const flames = document.querySelectorAll(".flame");
       const instruction = document.getElementById("blowInstruction");
       
-      // Hide instruction smoothly
-      instruction.style.transition = "opacity 0.3s ease-out";
-      instruction.style.opacity = "0";
-      setTimeout(() => instruction.style.display = "none", 300);
+      // Hide instruction
+      instruction.style.display = "none";
       
       // Blow out flames with staggered animation
       flames.forEach((flame, index) => {
@@ -841,11 +879,10 @@
           flame.style.animation = "none";
           flame.style.transform = "scale(0)";
           flame.style.opacity = "0";
-          flame.style.transition = "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
+          flame.style.transition = "all 0.5s ease-out";
         }, index * 200);
       });
 
-      // Show other elements with smooth sequencing
       const cake = document.getElementById("cake");
       const message = document.getElementById("message");
       const title = document.getElementById("mainTitle");
@@ -855,41 +892,29 @@
         
         setTimeout(() => {
           cake.classList.remove("hidden");
-          cake.style.animation = "fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1)";
+          cake.style.animation = "fadeIn 1s ease-out";
 
           setTimeout(() => {
             message.classList.remove("hidden");
-            message.style.animation = "fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1)";
+            message.style.animation = "fadeIn 1s ease-out";
           }, 800);
         }, 1000);
       }, 1500);
+
+      candlesBlown = true;
     }
 
-    // Initialize with initial elements
-    function init() {
-      // Start animation loop
-      animationFrameId = requestAnimationFrame(animationLoop);
-      
-      // Add initial sparkles
-      for(let i = 0; i < 10; i++) {
-        setTimeout(createSparkle, i * 200);
-      }
+    // Add some initial sparkles
+    for(let i = 0; i < 10; i++) {
+      setTimeout(createSparkle, i * 200);
     }
 
-    // Clean up animations when page is hidden
-    function handleVisibilityChange() {
-      if (document.hidden) {
-        cancelAnimationFrame(animationFrameId);
-      } else {
-        animationFrameId = requestAnimationFrame(animationLoop);
-      }
-    }
-
-    // Responsive handling
+    // Enhanced responsive handling
     function handleResize() {
       const container = document.querySelector('.container');
       const message = document.querySelector('.message');
       
+      // Ensure proper layout on resize
       if (window.innerHeight < 600) {
         container.style.minHeight = 'auto';
         if (message && !message.classList.contains('hidden')) {
@@ -905,24 +930,10 @@
       }
     }
 
-    // Event listeners
-    document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('resize', handleResize);
     window.addEventListener('orientationchange', () => {
       setTimeout(handleResize, 100);
     });
-
-    // Clean up on unload
-    window.addEventListener('beforeunload', () => {
-      cancelAnimationFrame(animationFrameId);
-    });
-
-    // Initialize
-    if (document.readyState === 'complete') {
-      init();
-    } else {
-      window.addEventListener('load', init);
-    }
   </script>
 </body>
 </html>
